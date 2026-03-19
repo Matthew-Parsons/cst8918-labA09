@@ -1,8 +1,7 @@
 name: Terraform Verify
 on:
   push:
-    branches:
-      - '**'  # Run on all branches
+
   pull_request:
     branches:
       - main
@@ -12,24 +11,19 @@ jobs:
   terraform-verify:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.2.4
 
-      # Step 3: Check Terraform formatting
       - name: Terraform fmt check
         run: terraform fmt -check -recursive
 
-      # Step 4: Initialize Terraform (needed for validate)
       - name: Terraform init
         run: terraform init -backend=false
 
-      # Step 5: Validate Terraform configuration
       - name: Terraform validate
         run: terraform validate
